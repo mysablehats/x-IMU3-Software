@@ -2,6 +2,7 @@
 
 #include "../C/Ximu3.h"
 #include <string>
+#include <cstring>
 
 namespace ximu3
 {

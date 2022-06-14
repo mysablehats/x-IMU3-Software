@@ -2,6 +2,7 @@
 #include "../Helpers.hpp"
 #include <iostream>
 #include <memory>
+#include <cstring>
 
 class OpenAndPing
 {

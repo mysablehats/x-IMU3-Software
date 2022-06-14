@@ -5,13 +5,17 @@ import sys
 from setuptools import setup, Extension
 
 # Build
-sys.argv.append("bdist_wheel")
+#sys.argv.append("bdist_wheel")
+sys.argv.append("install")
+sys.argv.append("--user")
 
 if platform.system() == "Darwin":  # if macOS
     os.environ["LDFLAGS"] = "-framework cocoa -framework IOKit"
     libraries = ["ximu3"]
+elif platform.system() == "Linux":
+    libraries = ["ximu3"]
 else:
-    libraries = ["ximu3", "ws2_32", "userenv", "setupapi", "advapi32"]
+    libraries = ["ximu3"]
 
 ext_modules = Extension("ximu3",
                         ["Python-C-API/ximu3.c"],
@@ -22,7 +26,7 @@ ext_modules = Extension("ximu3",
 github_url = "https://github.com/xioTechnologies/x-IMU3-Software"
 
 setup(name="ximu3",
-      version="0.5.0",
+      version="0.0.0",
       author="x-io Technologies Limited",
       author_email="info@x-io.co.uk",
       url=github_url,
@@ -33,7 +37,7 @@ setup(name="ximu3",
       ext_modules=[ext_modules])
 
 # Upload (prerequisite: "pip install wheel" and "pip install twine")
-os.system("python -m twine upload --verbose dist/* -u __token__ -p pypi-" + open("token.txt").read())
+# os.system("python -m twine upload --verbose dist/* -u __token__ -p pypi-" + open("token.txt").read())
 
 # Clean up
 shutil.rmtree("build")
