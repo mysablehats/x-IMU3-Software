@@ -13,9 +13,9 @@ if platform.system() == "Darwin":  # if macOS
     os.environ["LDFLAGS"] = "-framework cocoa -framework IOKit"
     libraries = ["ximu3"]
 elif platform.system() == "Linux":
-    libraries = ["ximu3"]
+    libraries = ["ximu3", "udev"]
 else:
-    libraries = ["ximu3"]
+    libraries = ["ximu3", "ws2_32", "userenv", "setupapi", "advapi32"]
 
 ext_modules = Extension("ximu3",
                         ["Python-C-API/ximu3.c"],
@@ -26,7 +26,7 @@ ext_modules = Extension("ximu3",
 github_url = "https://github.com/xioTechnologies/x-IMU3-Software"
 
 setup(name="ximu3",
-      version="0.0.0",
+      version="0.0.1",
       author="x-io Technologies Limited",
       author_email="info@x-io.co.uk",
       url=github_url,
