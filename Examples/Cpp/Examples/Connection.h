@@ -14,6 +14,8 @@
 
 class Connection
 {
+	public:
+		unsigned long long last_time; 
 protected:
     void run(const ximu3::ConnectionInfo& connectionInfo)
     {
@@ -23,10 +25,10 @@ protected:
         connection.addStatisticsCallback(statisticsCallback);
         if (helpers::yesOrNo("Print data messages?") == true)
         {
-            connection.addInertialCallback(inertialCallback);
-            connection.addMagnetometerCallback(magnetometerCallback);
+            /*connection.addInertialCallback(inertialCallback);
+            connection.addMagnetometerCallback(magnetometerCallback);*/
             connection.addQuaternionCallback(quaternionCallback);
-            connection.addRotationMatrixCallback(rotationMatrixCallback);
+            /*connection.addRotationMatrixCallback(rotationMatrixCallback);
             connection.addEulerAnglesCallback(eulerAnglesCallback);
             connection.addLinearAccelerationCallback(linearAccelerationCallback);
             connection.addEarthAccelerationCallback(earthAccelerationCallback);
@@ -36,7 +38,7 @@ protected:
             connection.addRssiCallback(rssiCallback);
             connection.addSerialAccessoryCallback(serialAccessoryCallback);
             connection.addNotificationCallback(notificationCallback);
-            connection.addErrorCallback(errorCallback);
+            connection.addErrorCallback(errorCallback);*/
         }
 
         // Open connection
@@ -99,15 +101,18 @@ private:
         // std::cout << XIMU3_magnetometer_message_to_string(message) << std::endl; // alternative to above
     };
 
-    std::function<void(ximu3::XIMU3_QuaternionMessage message)> quaternionCallback = [](auto message)
+    std::function<void(ximu3::XIMU3_QuaternionMessage message)> quaternionCallback = [this](auto message)
     {
-        printf(TIMESTAMP_FORMAT FLOAT_FORMAT FLOAT_FORMAT FLOAT_FORMAT FLOAT_FORMAT "\n",
+        /*printf(TIMESTAMP_FORMAT FLOAT_FORMAT FLOAT_FORMAT FLOAT_FORMAT FLOAT_FORMAT "\n",
                message.timestamp,
                message.w_element,
                message.x_element,
                message.y_element,
-               message.z_element);
+               message.z_element);*/
+	double rate = 1.0/(message.timestamp -last_time);
+	std::cout  << "Time elapsed in us: " << message.timestamp - last_time << std::endl;
         // std::cout << XIMU3_quaternion_message_to_string(message) << std::endl; // alternative to above
+	last_time = message.timestamp;
     };
 
     std::function<void(ximu3::XIMU3_RotationMatrixMessage message)> rotationMatrixCallback = [](auto message)
